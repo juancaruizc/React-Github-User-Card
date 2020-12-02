@@ -20,7 +20,7 @@ const StyledDiv = Styled.div`
   margin-top:5%;
   background-color:#00FF00;
   padding:3%;
-  width:50%;
+  width:65%;
   border-radius:10px;
 `
 
