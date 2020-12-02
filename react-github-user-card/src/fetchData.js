@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const FetchData = (username) => {
-    return axios.get(`https://api.github.com/users/juancaruizc`)
+    return axios.get(`https://api.github.com/users/${username}`)
     .then((res) => {
 
         return res.data

@@ -17,7 +17,7 @@ const StyledDiv = Styled.div`
   align-items:center;
   justify-content:center;
   justify-content:space-evenly;
-  margin-top:8%;
+  margin-top:5%;
   background-color:#00FF00;
   padding:3%;
   width:50%;
@@ -43,6 +43,24 @@ const StyledImgDiv = Styled.div`
   height:90%;
 `
 
+const StyledForm = Styled.form`
+ justify-content:center;
+ display:flex;
+ margin-top:5%;
+`
+
+const StyledButton = Styled.button`
+ border-radius:8px;
+ border:none;
+padding:4%;
+width:70%;
+`
+
+const StyledFormDiv = Styled.div`
+ display:flex;
+ justify-content:space-evenly;
+
+`
 
 class App extends React.Component {
   state = {
@@ -51,7 +69,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetchData('')
+    fetchData('juancaruizc')
         .then((res)=>{
           console.log(res)
             this.setState({
@@ -60,29 +78,57 @@ class App extends React.Component {
         });
 }
 
+onChange = (e) => {
+  console.log(this.state.input)
+  this.setState({
+      input:e.target.value
+  });
+} 
 
-
+onSubmit = (e) => {
+  e.preventDefault();
+  fetchData(this.state.input)
+      .then(res=>{
+          this.setState({
+              gitHubData: res
+          })
+      });
+}
 
   render() {
     return (
       <div className="App">
         
         <StyledH1>Github User Card</StyledH1>
-        <StyledDiv2>
-      <StyledDiv>
-        <StyledImgDiv>
-          <StyledImg src = {this.state.gitHubData.avatar_url} alt = {this.state.gitHubData.name}/>
-        </StyledImgDiv>
-        <StyledData>
-          <StyledH2>{this.state.gitHubData.name}</StyledH2>
-          <StyledText>Username: {this.state.gitHubData.login}</StyledText>
-          <StyledText>Bio: {this.state.gitHubData.bio}</StyledText>
-          <StyledText>Location: {this.state.gitHubData.location}</StyledText>
-          <StyledText>Followers: {this.state.gitHubData.followers}</StyledText>
-          <StyledText>Following: {this.state.gitHubData.following}</StyledText>
-          </StyledData>
-      </StyledDiv>
-      </StyledDiv2>
+        <StyledFormDiv>
+        <StyledForm >
+                    <input 
+                        value={this.state.input}
+                        placeholder='Enter Username'
+                        onChange={this.onChange}
+                    />
+                <StyledButton onClick={this.onSubmit}>Search</StyledButton>
+                </StyledForm>
+        </StyledFormDiv>
+               
+                      <StyledDiv2>
+                      <StyledDiv>
+                        <StyledImgDiv>
+                          <StyledImg src = {this.state.gitHubData.avatar_url} alt = {this.state.gitHubData.name}/>
+                        </StyledImgDiv>
+                        <StyledData>
+                          <StyledH2>{this.state.gitHubData.name}</StyledH2>
+                          <StyledText>Username: {this.state.gitHubData.login}</StyledText>
+                          <StyledText>Bio: {this.state.gitHubData.bio}</StyledText>
+                          <StyledText>Location: {this.state.gitHubData.location}</StyledText>
+                          <StyledText>Followers: {this.state.gitHubData.followers}</StyledText>
+                          <StyledText>Following: {this.state.gitHubData.following}</StyledText>
+                          </StyledData>
+                      </StyledDiv>
+                      </StyledDiv2>
+                    ))
+                
+   
      </div>
     );
   }
