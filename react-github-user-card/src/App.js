@@ -1,6 +1,7 @@
 import React from 'react'
 import Styled from 'styled-components'
 import fetchData from './fetchData'
+import fetchFollowers from './fetchFollowers'
 
 const StyledImg = Styled.img`
   border-radius:10px;
@@ -59,13 +60,42 @@ width:70%;
 const StyledFormDiv = Styled.div`
  display:flex;
  justify-content:space-evenly;
+  
+`
 
+const FollowersImg = Styled.img`
+ width:50%;
+ border-radius:10px;
+ display:flex;
+ justify-content:center;
+ margin-left:25%;
+`
+
+const FollowersH3 = Styled.h3`
+ font-size:0.8rem;
+ text-align:center;
+`
+
+const FollowersDiv = Styled.div`
+  width:15%;
+  background:red;
+  border-radius:10px;
+  
+`
+
+const FollowersDiv2 = Styled.div`
+  display:flex;
+  flex-wrap:wrap;
+   justify-content:center;
+   justify-content:space-evenly;
+   width:75%;
 `
 
 class App extends React.Component {
   state = {
     gitHubData: {},
-    input: ''
+    input: '',
+    followers: []
   }
 
   componentDidMount() {
@@ -74,6 +104,13 @@ class App extends React.Component {
           console.log(res)
             this.setState({
               gitHubData: res
+            });
+        });
+        fetchFollowers('juancaruizc')
+        .then((res)=>{
+          console.log(res)
+            this.setState({
+              followers: res
             });
         });
 }
@@ -90,7 +127,15 @@ onSubmit = (e) => {
   fetchData(this.state.input)
       .then(res=>{
           this.setState({
-              gitHubData: res
+              gitHubData: res,
+              input: ''
+          })
+      });
+      fetchFollowers(this.state.input)
+      .then(res=>{
+          this.setState({
+              followers: res,
+              input: ''
           })
       });
 }
@@ -126,6 +171,21 @@ onSubmit = (e) => {
                           </StyledData>
                       </StyledDiv>
                       </StyledDiv2>
+                      <h2>Followers of {this.state.gitHubData.name}</h2>
+
+                      <FollowersDiv2>
+                        {
+                          this.state.followers.map((follower) => 
+                          
+                          <FollowersDiv key = {follower.id}>
+                            <FollowersImg src = {follower.avatar_url} alt = {follower.name}/>
+                            <FollowersH3>{follower.login}</FollowersH3>
+                          </FollowersDiv>
+                          
+                          )
+                        }
+                        
+                      </FollowersDiv2>
                     ))
                 
    
